@@ -1,0 +1,12 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: echo "✅ CI Test Successful"
+  displayName: 'Run Simple Script'
+
