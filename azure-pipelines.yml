@@ -1,12 +1,24 @@
 trigger:
   branches:
     include:
-      - main
+      - main  # CI triggers on changes to 'main'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo "✅ CI Test Successful"
-  displayName: 'Run Simple Script'
+- script: echo "🎉 CI triggered for your HTML site!"
+  displayName: 'Check CI Trigger'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**/*.html\n**/*.css'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy HTML & CSS files'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'static-site'
+  displayName: 'Publish HTML as Build Artifact'
